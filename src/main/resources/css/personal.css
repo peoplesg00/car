@@ -1,0 +1,187 @@
+body {
+    width: max-content;
+    height: auto;
+    margin: auto;
+    background: #ffffff;
+    text-decoration: none;
+}
+
+/*----------------Head---------------------*/
+.Navigation {
+    width: 400px;
+    height: 100px;
+    float: left;
+    margin-left: 200px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.Navigation a {
+    text-decoration: none;
+    margin-left: 5px;
+    display: block;
+    margin-top: 10px;
+}
+
+.Login {
+    width: 400px;
+    height: 100px;
+    float: right;
+    margin-left: 200px;
+    margin-top: 60px;
+    text-align: center;
+}
+
+.Login a {
+    text-decoration: none;
+    margin-left: 5px;
+}
+
+/*----------------context-----------------*/
+.context {
+    width: max-content;
+    height: auto;
+    background: black;
+    overflow: hidden;
+}
+
+.left_information {
+    width: 120px;
+    float: left;
+    text-align: center;
+    margin-left: 20px;
+}
+
+.left_information button {
+    /*width: 100px;*/
+    /*border-radius: 80px;*/
+    /*padding: 10px;*/
+    /*background: brown;*/
+    /*color: burlywood;*/
+    display: block;
+    margin-left: 20px;
+    margin-top: 30px;
+}
+
+.right_information {
+    width: 1300px;
+    height: auto;
+    float: right;
+}
+
+.showImg {
+    width: 1000px;
+    height: 650px;
+    float: left;
+    margin: auto auto 20px;
+}
+
+.showImg img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.showImg:hover .showA a {
+    display: block;
+    transition: all 2s;
+}
+
+/*.right_information:hover .showImg button {*/
+/*display: block;*/
+/*}*/
+
+.showA {
+    width: 1000px;
+    height: 50px;
+    display: none;
+}
+
+.showA a {
+    text-decoration: none;
+    float: left;
+    margin-left: 80px;
+    margin-top: 10px;
+    color: #1e0c06;
+}
+
+.showA button {
+    margin-left: 80px;
+    margin-top: 10px;
+    float: left;
+}
+
+.Car_information {
+    float: right;
+    display: none;
+    text-align: center;
+}
+
+.Car_information input {
+    font-size: 0.7em;
+    height: 1.7em;
+    border-radius: 4px;
+    border: 1px solid #c8cccf;
+    color: #6a6f77;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.Car_information input::placeholder {
+    text-align: center;
+    color: #994a5a;
+}
+
+.user_information {
+    width: 1300px;
+    height: auto;
+    float: right;
+    display: none;
+}
+
+.user_information input {
+    font-size: 1em;
+    width: 30em;
+    height: 1.7em;
+    border-radius: 4px;
+    border: 1px solid #c8cccf;
+    color: #6a6f77;
+    margin-top: 30px;
+    margin-left: 400px;
+    text-align: center;
+}
+
+.user_information img {
+    width: 100px;
+    height: auto;
+    position: absolute;
+    left: 450px;
+    top: 200px;
+    border: 2px solid #ffffff;
+}
+
+.user_information button {
+    margin-top: 10px;
+    margin-left: 400px;
+}
+
+.user_information input::placeholder {
+    text-align: center;
+    color: #994a5a;
+}
+
+.updateUserPassword {
+    display: none;
+}
+
+.updateUserPassword input {
+    font-size: 1em;
+    width: 30em;
+    height: 1.7em;
+    border-radius: 4px;
+    border: 1px solid #c8cccf;
+    color: #6a6f77;
+    margin-top: 30px;
+    margin-left: 400px;
+    text-align: center;
+}

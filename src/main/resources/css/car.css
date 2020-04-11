@@ -1,0 +1,53 @@
+body {
+    max-width: max-content;
+    max-height: max-content;
+    overflow: hidden;
+}
+
+.head {
+    position: absolute;
+    right: 10px;
+    top: 200px;
+}
+
+.head a {
+    display: block;
+    text-decoration: none;
+    color: white;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.test {
+    max-width: max-content;
+    max-height: max-content;
+}
+
+.test img {
+    max-height: 1200px;
+}
+
+form {
+    width: 600px;
+    height: 600px;
+    position: fixed;
+    left: 260px;
+    top: 100px;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 30px;
+}
+
+.button {
+    width: 50px;
+    height: 30px;
+    border-radius: 10px;
+    text-align: center;
+    margin-left: 50px;
+    font-family: 宋体;
+    color: white;
+    font-size: 14px;
+    background: black;
+}

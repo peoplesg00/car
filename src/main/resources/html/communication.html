@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>豪车俱乐部</title>
+    <link rel="stylesheet" type="text/css" href="../css/communication.css">
+    <script type="text/javascript" src="../js/jquery-1.11.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+</head>
+<body>
+<div class="Navigation">
+    <a href="index.html" class="btn btn-danger">首页</a>
+    <a href="communication.html" class="btn btn-danger">交流之地</a>
+    <a id="personal" href="personal.html" class="btn btn-danger">个人车库</a>
+</div>
+<div class="Login">
+    <a id="UserName" class="btn btn-danger"></a>
+    <a id="login" href="login.html" class="btn btn-danger">登录</a>
+    <a id="register" href="register.html" class="btn btn-danger">注册</a>
+</div>
+<hr style="width:1440px; background: white;clear: both;margin-left: 10px;">
+<div id="content">
+    <!--<div class="User" id="User"></div>-->
+    <!--<div class="Car" id="Car"></div>-->
+</div>
+<hr style="width:1440px; background: white;clear: both;margin-left: 10px;">
+<div class="Foot">
+</div>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+                type: "POST",
+                url: "http://localhost:8083/car/selectALL",
+                xhrFields: {withCredentials: true},
+                success: function (data) {
+                    if (data.status === "success") {
+                        for (var i = 0; i < data.data.length; i++) {
+                            var date = new Date(data.data[i].date).getFullYear() + "-" + new Date(data.data[i].date).getMonth() + "-" +
+                                new Date(data.data[i].date).getDate();
+                            var dom =
+                                "<div class='content'>" +
+                                "<div class='User' id='USer'>" +
+                                "<table>" +
+                                "<tr><input type='text' size='40' value='帖子ID：" + data.data[i].id + "' disabled='disabled'></tr>" +
+                                "<tr><input type='text' size='40' value='用户：" + data.data[i].username + "' disabled='disabled'></tr>" +
+                                "<tr><input type='text' size='40' value='车名：" + data.data[i].name + "' disabled='disabled'></tr>" +
+                                "<tr><input type='text' size='40' value='马力：" + data.data[i].power + "匹' disabled='disabled'></tr>" +
+                                "<tr><input type='text' size='40' value='价格：" + data.data[i].price + "' disabled='disabled'></tr>" +
+                                "<tr><input type='text' size='40' value='生产日期：" + date + "' disabled='disabled'></tr>" +
+                                "<tr><td><textarea cols='40' rows='5' disabled='disabled'> 描述：" + data.data[i].description + "</textarea></td></tr>" +
+                                "</table>" +
+                                "<a href='word.html' style='margin-left: 80px;margin-top: 10px;'>留言</a>" +
+                                "</div>" +
+                                "<div class='Car' id='Car'><img src=../picture/car/User_Car/" + data.data[i].vehicle + "></div>" +
+                                "</div>";
+                            $("#content").append(dom);
+                        }
+                    } else {
+                        alert("信息获取失败" + data.data)
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                    alert(data.responseText);
+                }
+            }
+        );
+        var name = sessionStorage.getItem("name");
+        if (sessionStorage.getItem("name") != null && $.trim(sessionStorage.getItem("name")).length > 0) {
+            $("#register").hide();
+            $("#login").hide();
+            $("#UserName").html("欢迎用户：" + name);
+        } else {
+            $("#UserName").hide();
+        }
+    });
+</script>
+</html>
+<!--$("#personal").on("click", function () {-->
+<!--var name = sessionStorage.getItem("name");-->
+<!--if (sessionStorage.getItem("name") == null && $.trim(sessionStorage.getItem("name")).length == 0) {-->
+<!--alert("请先登录！");-->
+<!--} else {-->
+<!--var up = new FormData();-->
+<!--up.append("name", name);-->
+<!--$.ajax({-->
+<!--type: "GET",-->
+<!--contentType: false,-->
+<!--cache: false,-->
+<!--processData: false,-->
+<!--dataType: "json",-->
+<!--url: "http://localhost:8083/car/selectByUserName",-->
+<!--data: up,-->
+<!--xhrFields: {withCredentials: true},-->
+<!--success: function (data) {-->
+<!--if (data.status == "success") {-->
+<!--window.location.href = "personal.html"-->
+<!--} else {-->
+<!--alert("信息获取失败，原因为：" + data.responseText);-->
+<!--}-->
+<!--},-->
+<!--error: function (data) {-->
+<!--console.log(data)-->
+<!--alert("信息获取失败，原因为" + data.responseText);-->
+<!--},-->
+<!--});-->
+<!--window.location.href = "personal.html";-->
+<!--}-->
+<!--});-->

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理员界面</title>
+    <script type="text/javascript" src="../js/jquery-1.11.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="span2">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#" id="User_information">用户信息</a></li>
+                <li><a href="#" id="Car_information">用户帖子信息</a></li>
+                <li><a href="#" id="Wed_information">网站留言信息</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="User" style="display: none;text-align: center;">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span2">
+                </div>
+                <div class="span6">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr style="text-align: center;">
+                            <th>编号</th>
+                            <th>名称</th>
+                            <th>电话</th>
+                            <th>地址</th>
+                            <th>头像</th>
+                        </tr>
+                        </thead>
+                        <tbody id="table_user">
+
+                        </tbody>
+                    </table>
+                    <button class="btn bg-primary" style="width: 100px;margin-left: 50px;" id="page_P">上一页</button>
+                    <button class="btn bg-primary" style="width: 100px;margin-left: 20px;" id="page_L">下一页</button>
+                </div>
+                <div class="span4">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="Car" style="display: none;text-align: center;">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span2">
+                </div>
+                <div class="span6">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>编号</th>
+                            <th>名称</th>
+                            <th>车名</th>
+                            <th>马力</th>
+                            <th>价格</th>
+                            <th>日期</th>
+                            <th>描述</th>
+                            <th>图片</th>
+                        </tr>
+                        </thead>
+                        <tbody id="table_car">
+
+                        </tbody>
+                    </table>
+                    <button class="btn bg-primary" style="width: 100px;margin-left: 50px;" id="page_CP">上一页</button>
+                    <button class="btn bg-primary" style="width: 100px;margin-left: 20px;" id="page_CL">下一页</button>
+                </div>
+                <div class="span4">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="Web" style="text-align: center;display: none;">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span2">
+                </div>
+                <div class="span6">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>编号</th>
+                            <th>留言者</th>
+                            <th>问题</th>
+                            <th>状态</th>
+                        </tr>
+                        </thead>
+                        <tbody id="table_web">
+
+                        </tbody>
+                    </table>
+                    <button class="btn bg-primary" style="width: 100px;margin-left: 50px;" id="page_WP">上一页</button>
+                    <button class="btn bg-primary" style="width: 100px;margin-left: 20px;" id="page_WL">下一页</button>
+                </div>
+                <div class="span4">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    $(document).ready(function () {
+        var offset = 0;
+        var limit = 4;
+        var number = 0;
+        $("#User_information").on("click", function () {
+            if (number === 0) {
+                queryAllByUser(offset, limit);
+            }
+            number++;
+        });
+        $("#page_P").on("click", function () {
+            offset -= 4;
+            if (offset < 0) {
+                offset = 0;
+                alert("已为第一页");
+            }
+            queryAllByUser(offset, limit);
+        });
+        $("#page_L").on("click", function () {
+            offset += 4;
+            queryAllByUser(offset, limit);
+        });
+
+        //查询用户信息
+        function queryAllByUser(offset, limit) {
+            var upData = new FormData();
+            upData.append("offset", offset);
+            upData.append("limit", limit);
+            $.ajax({
+                type: "POST",
+                contentType: false,
+                cache: false,
+                processData: false,
+                dataType: "json",
+                url: "http://localhost:8083/user/queryAllByLimit",
+                data: upData,
+                xhrFields: {withCredentials: true},
+                success: function (data) {
+                    if (data.status === "success" && data.data.length > 0) {
+                        $("#table_user").html("");
+                        for (var i = 0; i < data.data.length; i++) {
+                            var dom = "<tr>" +
+                                "<td class='success'> " + data.data[i].id + "</td>" +
+                                "<td class='error'>" + data.data[i].name + "</td>" +
+                                "<td class='warning'>" + data.data[i].phone + "</td>" +
+                                "<td class='info'>" + data.data[i].location + "</td>" +
+                                "<td class='warning'><img style='width: 100px;height: auto;' src='../picture/user/" + data.data[i].img + "'></td>" +
+                                "<td class='success'><a href='http://localhost:8083/user/delete?id=" + data.data[i].id + "'>删除</a></td>" +
+                                "</tr>";
+                            $("#table_user").append(dom);
+                        }
+                        $("#User").show();
+                        $("#Car").hide();
+                        $("#Web").hide();
+                    } else {
+                        offset = 0;
+                        alert("已为最后一页");
+                    }
+                }
+            });
+        }
+
+        $("#Car_information").on("click", function () {
+            offset = 0;
+            limit = 2;
+            number = 0;
+            queryAllByCar(offset, limit);
+        });
+        $("#page_CP").on("click", function () {
+            offset -= 2;
+            if (offset < 0) {
+                offset = 0;
+                alert("已为第一页");
+            }
+            queryAllByCar(offset, limit);
+        });
+        $("#page_CL").on("click", function () {
+            offset += 2;
+            queryAllByCar(offset, limit);
+        });
+
+        //查询帖子信息
+        function queryAllByCar(off, lim) {
+            var upData = new FormData();
+            upData.append("offset", off);
+            upData.append("limit", lim);
+            $.ajax({
+                type: "POST",
+                contentType: false,
+                cache: false,
+                processData: false,
+                dataType: "json",
+                data: upData,
+                url: "http://localhost:8083/car/queryAllByLimit",
+                xhrFields: {withCredentials: true},
+                success: function (data) {
+                    if (data.status === "success" && data.data.length > 0) {
+                        $("#table_car").html("");
+                        for (var i = 0; i < data.data.length; i++) {
+                            var date = new Date(data.data[i].date).getFullYear() + "-" + new Date(data.data[i].date).getMonth() + "-" + new Date(data.data[i].date).getDay();
+                            var dom = "<tr>" +
+                                "<td class='success'> " + data.data[i].id + "</td>" +
+                                "<td class='error'>" + data.data[i].username + "</td>" +
+                                "<td class='warning'>" + data.data[i].name + "</td>" +
+                                "<td class='info'>" + data.data[i].power + "</td>" +
+                                "<td class='success'>" + data.data[i].price + "</td>" +
+                                "<td class='info'>" + date + "</td>" +
+                                "<td class='warning'>" + data.data[i].description + "</td>" +
+                                "<td class='info'><img style='width: 100px;height: auto;' src='../picture/car/User_Car/" + data.data[i].vehicle + "'></td>" +
+                                "<td class='success'><a href='http://localhost:8083/car/deleteByID?id=" + data.data[i].id + "'>删除</a></td>" +
+                                "</tr>";
+                            $("#table_car").append(dom);
+                        }
+                        $("#Car").show();
+                        $("#User").hide();
+                        $("#Web").hide();
+                    } else {
+                        offset = 0;
+                        alert("已为最后一页");
+                    }
+                }
+            });
+        }
+
+        $("#Wed_information").on("click", function () {
+            number = 0;
+            selectByQuestionID();
+        });
+
+        // 查询留言信息
+        function selectByQuestionID() {
+            var upData = new FormData();
+            var num = 0;
+            upData.append("questionID", num);
+            $.ajax({
+                type: "POST",
+                contentType: false,
+                cache: false,
+                processData: false,
+                dataType: "json",
+                url: "http://localhost:8083/word/selectByQuestionID",
+                data: upData,
+                xhrFields: {withCredentials: true},
+                success: function (data) {
+                    $("#table_web").html("");
+                    if (data.status === "success" && data.data.length > 0) {
+                        var i = 0;
+                        page(i);
+                        $("#page_WP").on("click", function () {
+                            i -= 1;
+                            if (i < 0) {
+                                i = data.data.length - 1;
+                                alert("已经是第一页了")
+                            } else {
+                                page(i, length);
+                            }
+                        });
+                        $("#page_WL").on("click", function () {
+                            i += 1;
+                            if (i < data.data.length) {
+                                page(i, length);
+                            } else {
+                                i = 0;
+                                alert("已经是最后一页");
+                            }
+                        });
+
+                        function page(i) {
+                            var dom = "<tr>" +
+                                "<td class='success'> " + data.data[i].id + "</td>" +
+                                "<td class='error'>" + data.data[i].message + "</td>" +
+                                "<td class='warning'>" + data.data[i].problem + "</td>" +
+                                "<td class='info'>" + data.data[i].progress + "</td>" +
+                                "<td class='success'><select id='select'>" +
+                                "<option>完成</option>" +
+                                "</select></td>" +
+                                "<td class='info'><a href='http://localhost:8083/word/updateTo?ID=" + data.data[i].id + "'>回复</a></td>" +
+                                "<td class='success'><a href='http://localhost:8083/word/deleteByID?id=" + data.data[i].id + "'>删除</a></td>" +
+                                "</tr>";
+                            $("#table_web").append(dom);
+                        }
+
+                        $("#Web").show();
+                        $("#User").hide();
+                        $("#Car").hide();
+                    }
+                },
+                error: function () {
+                    alert("查询失败");
+                }
+            });
+        }
+    });
+</script>
+</html>

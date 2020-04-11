@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>豪车俱乐部</title>
+    <link rel="stylesheet" type="text/css" href="../css/car.css">
+    <script type="text/javascript" src="../js/jquery-1.11.1.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+</head>
+<body>
+<div class="head">
+    <a href="index.html">首页</a>
+    <a href="communication.html">交流之地</a>
+    <a href="personal.html">个人中心</a>
+</div>
+<div class="test">
+    <img src="../picture/car/Rolls-Royce/Rolls-Royce1-1.jpeg" id="previewImg">
+    <form role="form">
+        <table class="table">
+            <tr>
+                <td><input type="text" id="name" name="name" size="40" placeholder="请输入车名" class="form-control"></td>
+            </tr>
+            <tr>
+                <td><input type="text" id="power" name="power" size="40" placeholder="请输入车的马力" class="form-control">
+                </td>
+            </tr>
+            <tr>
+                <td><input type="text" id="price" name="price" size="40" placeholder="请输入车的价格" class="form-control">
+                </td>
+            </tr>
+            <tr>
+                <td><input type="date" id="date" name="date" size="40" placeholder="请输入车的生产日期" class="form-control">
+                </td>
+            </tr>
+            <tr>
+                <td><textarea name="description" id="description" rows="10" cols="45" placeholder="请输入车的描述"
+                              class="form-control"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="file" class="btn btn-default" style="margin-top: 10px;">请选择车的图片</label>
+                    <input id="file" type="file" style="display:none">
+                    <!--<input type="file" id="file" name="vehicle" size="20" placeholder="请选择车的图片"-->
+                    <!--accept="image/png,image/jpg,image/jpeg">-->
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="提交" size="30" class="button" id="submit">&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="reset" value="取消" size="15" class="button" id="reset">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+<script>
+    $(document).ready(function () {
+        $("#submit").on("click", function () {
+            var upData = new FormData();
+            var userName = sessionStorage.getItem("name");
+            var name = $("#name").val();
+            var power = $("#power").val();
+            var price = $("#price").val();
+            var date = $("#date").val();
+            var description = $("#description").val();
+            var file = $("#file").val();
+            upData.append("user_name", userName);
+            upData.append("name", name);
+            upData.append("power", power);
+            upData.append("price", price);
+            upData.append("date", date);
+            upData.append("description", description);
+            upData.append("file", $("#file")[0].files[0]);
+            if (name == null) {
+                alert("车名不能为空！！")
+                return false;
+            }
+            if (power == null) {
+                alert("车的马力不能为空！！")
+                return false;
+            }
+            if (price == null) {
+                alert("车的价格不能为空！！")
+                return false;
+            }
+            if (date == null) {
+                alert("车的生产日期不能为空！！")
+                return false;
+            }
+            if (file == null) {
+                alert("车的图片不能为空！！")
+                return false;
+            }
+            if (userName == null) {
+                alert("无法获取用户姓名，请登录后再进行增帖。");
+                return false;
+            }
+            $.ajax({
+                type: "POST",
+                contentType: false,
+                cache: false,
+                processData: false,
+                dataType: "json",
+                url: "http://localhost:8083/car/insert",
+                data: upData,
+                xhrFields: {withCredentials: true},
+                success: function (data) {
+                    if (data.status == "success") {
+                        alert("增帖成功")
+                        window.location.href = "car.html";
+                    } else {
+                        alert("增帖失败，原因为：" + data.data.errMsg);
+                    }
+                },
+                error: function (data) {
+                    console.log(data)
+                    alert("增帖失败，原因为" + data.responseText);
+                },
+            });
+            return false;
+        });
+        // 将用户选择的图片展示给用户
+        $("#file").change(function () {
+            var file = this.files[0];
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function (e) {
+                $("#previewImg").attr("src", e.target.result);
+            };
+        });
+    });
+</script>
+
+</html>
+<!--<%&#45;&#45;<img src="/Picture/user/carrot.png" id="previewImg" width="50" height="50">&nbsp;&nbsp;&#45;&#45;%>-->

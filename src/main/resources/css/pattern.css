@@ -1,0 +1,90 @@
+/*--------------index-------------------*/
+.body {
+    width: max-content;
+    height: max-content;
+    margin: auto;
+    background: white;
+}
+
+.head {
+    width: 800px;
+    height: 300px;
+    margin: auto;
+    /*background-image: url("/Picture/Car/Ferrari/Ferrari1-1.jpg");*/
+}
+
+.head img {
+    max-width: 800px;
+}
+
+.head ul {
+    float: left;
+}
+
+.head ul li {
+    margin-top: 6px;
+}
+
+.head a {
+    text-decoration: none;
+    color: black;
+}
+
+.span {
+    padding-top: 80px;
+    margin-right: 6px;
+    font-size: 12px;
+}
+
+.span a {
+    padding-top: 80px;
+    float: right;
+    margin-right: 5px;
+}
+
+.head_h1 {
+    text-align: center;
+    font-size: 16px;
+    margin-top: 10px;
+    color: brown;
+}
+
+/*----------------login-----------------------*/
+.civ {
+    background: azure;
+    width: max-content;
+    height: max-content;
+    font-family: 宋体;
+    font-size: 12px;
+    padding: 10px;
+    margin: auto;
+    text-align: center;
+}
+
+.form {
+    width: max-content;
+    height: 200px;
+}
+
+/*-----------------register----------------------------*/
+.form1 {
+    width: max-content;
+    height: 600px;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 30px;
+}
+
+.button {
+    width: 50px;
+    height: 30px;
+    border-radius: 10px;
+    text-align: center;
+    margin-left: 50px;
+    font-family: 宋体;
+    color: white;
+    font-size: 14px;
+    background: black;
+}
