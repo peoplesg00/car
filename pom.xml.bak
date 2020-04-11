@@ -22,13 +22,6 @@
     </properties>
 
     <dependencies>
-	<!--引入热部署-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-            <scope>true</scope>
-        </dependency>
         <!--引入web包-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
